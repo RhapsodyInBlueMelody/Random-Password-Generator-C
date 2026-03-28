@@ -1,6 +1,7 @@
 #include <stdio.h>
 #define SIZE 17
-#define CHARSET_SIZE 62
+#define CHARSET_SIZE 72
+#define BYTE 256
 
 #define RESET "\033[0m"
 #define BOLD "\033[1m"
@@ -18,9 +19,9 @@ int main() {
 
   unsigned char buffer;
   size_t bytes_read, index, counter = 0;
-  char password[SIZE] = "";
-  const char *charset =
-      "0123456789aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ";
+  char password[SIZE];
+  const char *charset = "0123456789aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvV"
+                        "wWxXyYzZ!@#$%^&*()";
 
   printf(PINK BOLD "\n  ╔══════════════════════════════╗\n" RESET);
   printf(PINK BOLD "  ║  " RESET YELLOW " /\\_____/\\" PINK
@@ -49,7 +50,7 @@ int main() {
       printf(RED "  (x_x) " RESET "error reading file — *hisses*\n\n");
       break;
     }
-    if (buffer < 248) {
+    if (buffer < (BYTE - (BYTE % CHARSET_SIZE))) {
       index = buffer % CHARSET_SIZE;
       password[counter] = charset[index];
       counter++;
